@@ -1,9 +1,7 @@
 
 # **Predicting Customer Churn with Amazon SageMaker**
---
-This lab has been adapted from an [AWS blog post](https://aws.amazon.com/blogs/ai/predicting-customer-churn-with-amazon-machine-learning/).
 
-This lab is provided as part of the [AWS Innovate Online Conference](https://aws.amazon.com/events/aws-innovate/machine-learning/).
+This lab is provided as part of the [AWS Innovate Online Conference](https://aws.amazon.com/events/aws-innovate/machine-learning/). It has been adapted from an [AWS blog post](https://aws.amazon.com/blogs/ai/predicting-customer-churn-with-amazon-machine-learning/).
 
 ℹ️ You will run this lab in your own AWS account. Please follow directions at the end of the lab to remove resources to minimize costs.
 
@@ -15,7 +13,7 @@ We use an example of churn that is familiar to all of us–leaving a mobile phon
 
 ## Setup: Launch AWS CloudFormation Stack
 
-You will use AWS CloudFormation to deploy Amazon SageMaker in your AWS account. It will be deployed in the Sydney region. Please ensure you follow directions at the end of the lab to delete the CloudFormation stack to remove resources.
+You will use AWS CloudFormation to deploy Amazon SageMaker in your AWS account. It will be deployed in the **Sydney region**. Please ensure you follow directions at the end of the lab to delete the CloudFormation stack to remove resources.
 
 **1.** Login to your AWS account.
 
@@ -26,8 +24,6 @@ The CloudFormation console will be displayed, with some information already ente
 **3.** Click **Next** three times.
 
 **4.** At the bottom of the page, select "I acknowledge that AWS CloudFormation might create IAM resources".
-
-![create stack](images/CreateStack.png)
 
 **5.** Click **Create stack**.
 
@@ -48,6 +44,8 @@ This will open a new browser tab to the Jupyter interface.
 **9.** Click **lab_notebook.ipynb**.
 
 This will open the notebook that will be used for the lab.
+
+**Please follow the instructions in the notebook.** At the conclusion of the lab, please return the page you are currently reading to delete the CloudFormation template.
 
 ## Important: Clean-up
 
