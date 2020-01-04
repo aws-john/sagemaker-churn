@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  SageMakerNotebookInstanceType:
+    Type: String
+    Default: ml.m4.xlarge
+
+Resources:
+  LabBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Join
+        - "-"
+        - - "sagemaker-lab"
+          - !Select
+            - 0
+            - !Split
+              - "-"
+              - !Select
+                - 2
+                - !Split
+                  - "/"
+                  - !Ref "AWS::StackId"
+  
+  SageMakerNotebookInstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - sagemaker.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonSageMakerFullAccess'
+      Path: /
+      Policies:
+        - PolicyName: IAMReadOnly
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'iam:List*'
+                  - 'iam:Get*'
+                Resource: '*'
+        - PolicyName: DataBucketAccess
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: ['s3:GetObject',
+                        's3:PutObject',
+                        's3:GetObjectAcl',
+                        's3:PutObjectAcl',
+                        's3:ListBucket',
+                        's3:DeleteObject',
+                        's3:DeleteBucket']
+                Resource:
+                  - arn:aws:s3:::sagemaker-lab*
+                  - arn:aws:s3:::sagemaker-lab*/*
+  
+  SageMakerNotebookInstanceLifecycleConfig:
+    Type: 'AWS::SageMaker::NotebookInstanceLifecycleConfig'
+    Properties:
+      OnStart:
+        - Content:
+            Fn::Base64:
+              !Sub |
+              #!/bin/bash
+              wget -O /home/ec2-user/SageMaker/lab_notebook.ipynb https://raw.githubusercontent.com/aws-john/sagemaker-churn/master/sagemaker-churn-lab.ipynb
+              chown ec2-user:ec2-user /home/ec2-user/SageMaker/lab_notebook.ipynb
+
+  SageMakerNotebookInstance:
+    Type: 'AWS::SageMaker::NotebookInstance'
+    Properties:
+      InstanceType: !Ref SageMakerNotebookInstanceType
+      LifecycleConfigName: !GetAtt
+        - SageMakerNotebookInstanceLifecycleConfig
+        - NotebookInstanceLifecycleConfigName
+      RoleArn: !GetAtt
+        - SageMakerNotebookInstanceRole
+        - Arn
+
+Outputs:
+  LabBucket:
+    Value: !Ref LabBucket
