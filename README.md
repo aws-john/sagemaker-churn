@@ -19,7 +19,9 @@ You will use AWS CloudFormation to deploy Amazon SageMaker in your AWS account. 
 
 **2.** Right-click this link and open in a new browser tab: [Launch Stack into ap-southeast-2 with CloudFormation](https://console.aws.amazon.com/cloudformation/home?region=ap-southeast-2#/stacks/new?stackName=SageMakerChurn&templateURL=https://s3-ap-southeast-2.amazonaws.com/share.jr-class.net/sagemaker-churn-lab.yaml)
 
-The CloudFormation console will be displayed, with some information already entered.
+If that fails due to a file not found, then instead:
+- Right-click this link and download it to your computer: [sagemaker-churn-lab.yaml](https://raw.githubusercontent.com/aws-john/sagemaker-churn/master/sagemaker-churn-lab.yaml)
+- In the CloudFormation management console, **Create stack** and upload the YAML file you just downloaded
 
 **3.** Click **Next** three times.
 
